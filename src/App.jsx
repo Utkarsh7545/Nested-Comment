@@ -4,11 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 const initialComments = [
   {
-    id: 1,
+    id: uuidv4(),
     text: "Hello world! How are you?",
     replies: [
       {
-        id: 2,
+        id: uuidv4(),
         text: "Hey, I am fine, what about you?",
         replies: [],
       },
