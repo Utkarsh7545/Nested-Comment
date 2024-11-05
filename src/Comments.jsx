@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 const Comments = ({ comments, addComment, deleteComment }) => {
+  
   const [activeInputId, setActiveInputId] = useState(-1);
   const [replyText, setReplyText] = useState('');
 

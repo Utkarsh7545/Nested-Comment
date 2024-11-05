@@ -17,6 +17,7 @@ const initialComments = [
 ];
 
 const App = () => {
+  
   const [newCommentText, setNewCommentText] = useState('');
   const [commentList, setCommentList] = useState(initialComments);
 
@@ -55,6 +56,32 @@ const App = () => {
     }
   };
 
+  const addCommentToList = (comments, parentId, text) => {
+    for (const comment of comments) {
+      if (comment.id === parentId) {
+        comment.replies.unshift({
+          id: uuidv4(),
+          text,
+          replies: [],
+        });
+        return true;
+      }
+      if (addCommentToList(comment.replies, parentId, text)) return true;
+    }
+    return false;
+  };
+
+  const deleteCommentFromList = (comments, commentId) => {
+    for (let i = 0; i < comments.length; i++) {
+      if (comments[i].id === commentId) {
+        comments.splice(i, 1);
+        return true;
+      }
+      if (deleteCommentFromList(comments[i].replies, commentId)) return true;
+    }
+    return false;
+  };
+
   return (
     <>
       <h1>Comments</h1>
@@ -88,29 +115,3 @@ const App = () => {
 };
 
 export default App;
-
-const addCommentToList = (comments, parentId, text) => {
-  for (const comment of comments) {
-    if (comment.id === parentId) {
-      comment.replies.unshift({
-        id: uuidv4(),
-        text,
-        replies: [],
-      });
-      return true;
-    }
-    if (addCommentToList(comment.replies, parentId, text)) return true;
-  }
-  return false;
-};
-
-const deleteCommentFromList = (comments, commentId) => {
-  for (let i = 0; i < comments.length; i++) {
-    if (comments[i].id === commentId) {
-      comments.splice(i, 1);
-      return true;
-    }
-    if (deleteCommentFromList(comments[i].replies, commentId)) return true;
-  }
-  return false;
-};
